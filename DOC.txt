@@ -1,0 +1,80 @@
+==================================================
+CYBERSECURITY PLATFORM - SYSTEM DOCUMENTATION
+==================================================
+
+1. OVERVIEW
+-----------
+This project is a secure web-based authentication system featuring dynamic user registration, password strength validation, secure server-side login logic, and an interactive dashboard. The system utilizes HTML/CSS/JS for the frontend and PHP with MySQL (via XAMPP) for the backend.
+
+2. SYSTEM ARCHITECTURE
+----------------------
+- Frontend: HTML5, CSS3, Vanilla JavaScript
+- Backend Middleware: PHP
+- Database: MySQL (XAMPP default configuration)
+
+3. DATABASE SETUP & SCHEMA
+--------------------------
+The `setup_database.php` script is responsible for automatically provisioning the required database structure.
+
+Database Name: `cybersecurity`
+Table Name: `users`
+Columns:
+- id (INT, Primary Key, Auto-increment)
+- fullname (VARCHAR 100, Not Null)
+- username (VARCHAR 50, Not Null, Unique)
+- password (VARCHAR 255, Not Null) - Stores the hashed password.
+- created_at (TIMESTAMP, defaults to current time)
+
+4. REGISTRATION MODULE (`register.html` & `register.php`)
+---------------------------------------------------------
+- **Frontend Validation (JavaScript):**
+  The registration form uses JavaScript to dynamically evaluate password strength in real-time. 
+  It checks against 5 core criteria:
+    1. Length (minimum 12 characters)
+    2. Uppercase letter (A-Z)
+    3. Lowercase letter (a-z)
+    4. Numeric digit (0-9)
+    5. Special character (!@#$$% etc.)
+  A progress bar maps the score to visual cues ranging from "Very Weak" (Red) to "Very Strong" (Cyan).
+
+- **Backend Validation (PHP):**
+  When the registration form is submitted, `register.php` independently verifies all password strength requirements server-side to prevent bypasses.
+  It also checks for duplicate usernames in the database.
+
+- **Password Hashing:**
+  If all validations pass, the system utilizes PHP's native `password_hash()` function with the `PASSWORD_BCRYPT` algorithm and a cost factor of 12. 
+  BCrypt automatically generates a unique salt for each password and hashes it. Only the resulting hash is stored in the database.
+
+5. LOGIN MODULE (`login.html` & `login.php`)
+--------------------------------------------
+- **Process:**
+  Users submit their username and password via AJAX in `login.html`.
+  `login.php` queries the database for the matching username.
+  
+- **Authentication:**
+  The system uses `password_verify()` in PHP to securely compare the plaintext password entered by the user against the bcrypt hash stored in the database.
+
+- **Session Handling:**
+  Upon successful server verification, the client (JavaScript) saves the username to `sessionStorage` and redirects the user to `dashboard.html`.
+
+6. DASHBOARD MODULE (`dashboard.html`)
+--------------------------------------
+The dashboard acts as the destination post-login. 
+- It reads the authenticated user's name from `sessionStorage` (or URL parameters) to provide a personalized "Welcome back" greeting.
+- Features dynamic elements such as a Confetti animation (using vanilla JS and CSS keyframes), a dynamic login timestamp, and a functional "Sign Out" button that clears the session and returns the user to the login page.
+
+7. UI / AESTHETICS (Glassmorphism & Dark Mode)
+----------------------------------------------
+The CSS (`styles.css` and inline styles) implements a modern "Dark Glassmorphism" aesthetic:
+- **Backgrounds:** Complex CSS radial gradients and infinite animation cycles.
+- **Form Panels:** Semi-transparent containers utilizing the `backdrop-filter: blur()` property.
+- **Animations:** Floating CSS shapes, pulsing icons, form slide-ins, and interactive hover states for inputs and buttons.
+- **Icons:** Integrated Font Awesome 6 icons.
+
+8. SECURITY SUMMARY
+-------------------
+- NO plaintext passwords are ever stored.
+- Dual-layer validation (both client-side JS and server-side PHP) ensures data integrity.
+- SQL Injection protection via PHP MySQLi Prepared Statements (`$stmt->bind_param()`).
+- Automated Bcrypt Salting mitigates rainbow table attacks.
+- Enforced minimum standards on password complexity limit brute-force dictionary attacks.

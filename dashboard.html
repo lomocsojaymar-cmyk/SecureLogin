@@ -1,0 +1,261 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Welcome - CyberSecurity</title>
+    <link rel="stylesheet" href="styles.css">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    <style>
+        .welcome-container {
+            text-align: center;
+            position: relative;
+            z-index: 1;
+        }
+
+        .welcome-icon {
+            width: 100px;
+            height: 100px;
+            background: linear-gradient(135deg, #22c55e 0%, #06b6d4 100%);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin: 0 auto 28px;
+            font-size: 48px;
+            color: white;
+            box-shadow: 0 12px 35px rgba(34, 197, 94, 0.35);
+            animation: successPop 0.6s cubic-bezier(0.175, 0.885, 0.32, 1.275) forwards,
+                       successGlow 2.5s ease-in-out infinite 0.6s;
+        }
+
+        @keyframes successPop {
+            0% { transform: scale(0); opacity: 0; }
+            60% { transform: scale(1.15); }
+            100% { transform: scale(1); opacity: 1; }
+        }
+
+        @keyframes successGlow {
+            0%, 100% { box-shadow: 0 12px 35px rgba(34, 197, 94, 0.35); }
+            50% { box-shadow: 0 12px 50px rgba(34, 197, 94, 0.55), 0 0 80px rgba(34, 197, 94, 0.15); }
+        }
+
+        .welcome-title {
+            font-size: 32px;
+            font-weight: 700;
+            color: #f1f5f9;
+            margin-bottom: 8px;
+            animation: fadeSlideUp 0.6s ease-out 0.3s both;
+        }
+
+        .welcome-subtitle {
+            font-size: 18px;
+            color: #22c55e;
+            font-weight: 600;
+            margin-bottom: 6px;
+            animation: fadeSlideUp 0.6s ease-out 0.45s both;
+        }
+
+        .welcome-user {
+            font-size: 15px;
+            color: #94a3b8;
+            margin-bottom: 32px;
+            animation: fadeSlideUp 0.6s ease-out 0.55s both;
+        }
+
+        .welcome-user span {
+            color: #a78bfa;
+            font-weight: 600;
+        }
+
+        @keyframes fadeSlideUp {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        /* Confetti particles */
+        .confetti-container {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+            z-index: 999;
+            overflow: hidden;
+        }
+
+        .confetti {
+            position: absolute;
+            top: -10px;
+            width: 10px;
+            height: 10px;
+            border-radius: 2px;
+            animation: confettiFall linear forwards;
+        }
+
+        @keyframes confettiFall {
+            0% { transform: translateY(-10px) rotate(0deg); opacity: 1; }
+            100% { transform: translateY(100vh) rotate(720deg); opacity: 0; }
+        }
+
+        .divider {
+            height: 1px;
+            background: linear-gradient(90deg, transparent, rgba(255,255,255,0.1), transparent);
+            margin: 24px 0;
+            animation: fadeSlideUp 0.6s ease-out 0.6s both;
+        }
+
+        .welcome-info {
+            display: flex;
+            justify-content: center;
+            gap: 32px;
+            margin-bottom: 28px;
+            animation: fadeSlideUp 0.6s ease-out 0.65s both;
+        }
+
+        .info-item {
+            text-align: center;
+        }
+
+        .info-item i {
+            font-size: 20px;
+            color: #7c3aed;
+            margin-bottom: 6px;
+            display: block;
+        }
+
+        .info-label {
+            font-size: 11px;
+            color: #64748b;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+
+        .info-value {
+            font-size: 14px;
+            color: #cbd5e1;
+            font-weight: 600;
+            margin-top: 2px;
+        }
+
+        .btn-logout {
+            width: 100%;
+            padding: 14px;
+            background: rgba(255, 255, 255, 0.06);
+            color: #94a3b8;
+            border: 1.5px solid rgba(255, 255, 255, 0.1);
+            border-radius: 12px;
+            font-size: 15px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            font-family: 'Inter', sans-serif;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 10px;
+            animation: fadeSlideUp 0.6s ease-out 0.75s both;
+        }
+
+        .btn-logout:hover {
+            background: rgba(239, 68, 68, 0.1);
+            border-color: rgba(239, 68, 68, 0.3);
+            color: #f87171;
+            transform: translateY(-2px);
+        }
+    </style>
+</head>
+<body>
+    <!-- Confetti -->
+    <div class="confetti-container" id="confettiContainer"></div>
+
+    <div class="container">
+        <div class="auth-form">
+            <!-- Decorative floating shapes -->
+            <div class="floating-shapes">
+                <div class="shape shape-1"></div>
+                <div class="shape shape-2"></div>
+                <div class="shape shape-3"></div>
+            </div>
+
+            <div class="welcome-container">
+                <div class="welcome-icon">
+                    <i class="fas fa-check"></i>
+                </div>
+                <h1 class="welcome-title">Congratulations!</h1>
+                <p class="welcome-subtitle">You have successfully logged in</p>
+                <p class="welcome-user">Welcome back, <span id="userName">User</span></p>
+
+                <div class="divider"></div>
+
+                <div class="welcome-info">
+                    <div class="info-item">
+                        <i class="fas fa-shield-halved"></i>
+                        <div class="info-label">Status</div>
+                        <div class="info-value">Secured</div>
+                    </div>
+                    <div class="info-item">
+                        <i class="fas fa-clock"></i>
+                        <div class="info-label">Login Time</div>
+                        <div class="info-value" id="loginTime">--:--</div>
+                    </div>
+                    <div class="info-item">
+                        <i class="fas fa-calendar"></i>
+                        <div class="info-label">Date</div>
+                        <div class="info-value" id="loginDate">--/--/----</div>
+                    </div>
+                </div>
+
+                <button class="btn-logout" onclick="logout()">
+                    <i class="fas fa-right-from-bracket"></i>
+                    Sign Out
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Display user name from URL or sessionStorage
+        const params = new URLSearchParams(window.location.search);
+        const user = params.get('user') || sessionStorage.getItem('loggedInUser') || 'User';
+        document.getElementById('userName').textContent = user;
+
+        // Display login time and date
+        const now = new Date();
+        document.getElementById('loginTime').textContent = now.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
+        document.getElementById('loginDate').textContent = now.toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: 'numeric' });
+
+        // Confetti animation
+        function createConfetti() {
+            const container = document.getElementById('confettiContainer');
+            const colors = ['#7c3aed', '#06b6d4', '#22c55e', '#f97316', '#f43f5e', '#eab308', '#a78bfa', '#34d399'];
+
+            for (let i = 0; i < 60; i++) {
+                const confetti = document.createElement('div');
+                confetti.classList.add('confetti');
+                confetti.style.left = Math.random() * 100 + '%';
+                confetti.style.background = colors[Math.floor(Math.random() * colors.length)];
+                confetti.style.width = (Math.random() * 8 + 5) + 'px';
+                confetti.style.height = (Math.random() * 8 + 5) + 'px';
+                confetti.style.animationDuration = (Math.random() * 2 + 2) + 's';
+                confetti.style.animationDelay = (Math.random() * 1.5) + 's';
+                confetti.style.borderRadius = Math.random() > 0.5 ? '50%' : '2px';
+                container.appendChild(confetti);
+            }
+
+            // Remove confetti after animation
+            setTimeout(() => { container.innerHTML = ''; }, 5000);
+        }
+
+        createConfetti();
+
+        // Logout
+        function logout() {
+            sessionStorage.removeItem('loggedInUser');
+            window.location.href = 'login.html';
+        }
+    </script>
+</body>
+</html>
