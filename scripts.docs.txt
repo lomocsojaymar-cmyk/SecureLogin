@@ -1,0 +1,46 @@
+# Security Audit: Direct Implementation & Logic Report
+
+This report explains exactly where your security code is located and, more importantly, how that specific code works to protect your data.
+
+---
+
+## 1. Password Hashing (The "Locked Box")
+*   **Location:** `login.php`, Line 50.
+*   **Snippet:** `password_verify($password, $user['password'])`
+*   **How it works:** This line is like a specialized key-checker. It doesn't look at your actual password. Instead, it takes the password you typed, scrambles it into a "hash," and compares it to the scrambled version we saved earlier. If they match, it lets you in. This means even if a hacker sees the database, they only see scrambled text, not your password.
+
+---
+
+## 2. Salting (The "Random Variation")
+*   **Location:** Handled internally by `password_verify` in `login.php`.
+*   **How it works:** Behind the scenes, the system adds a unique random code (the "salt") to your password before it gets scrambled. This ensures that if two people use the same password, their "scrambled" versions in the database will still look completely different. This stops hackers from using pre-calculated lists to guess common passwords.
+
+---
+
+## 3. Peppering (The "Secret Layer")
+*   **Location:** `script.js`, Line 2.
+*   **Snippet:** `const PEPPER = "MySecretPepperKey2024!@#";`
+*   **How it works:** This line adds one extra secret word to your password *before* it gets hashed. Think of it as a second password that the user doesn't even know exists. Even if someone steals the entire database and guesses the salt, they still wouldn't know this extra "Pepper" word, making it much harder to break in.
+
+---
+
+## 4. SQL Injection Protection (The "Gatekeeper")
+*   **Location:** `login.php`, Lines 36-37.
+*   **Snippet:** `$stmt = $conn->prepare(...)`
+*   **How it works:** These lines tell the database: "I'm going to send you a name, but treat it ONLY as a name, not as a command." By using `prepare`, the system ignores any computer code a hacker might try to type into the username box. It treats everything as simple text, effectively "locking the door" against code-based attacks.
+
+---
+
+## 5. Password Complexity (The "Strength Rules")
+*   **Location:** `register.js`, Lines 24-30.
+*   **Snippet:** `regex: /.{12,}/` (and others).
+*   **How it works:** This code acts like a strict security guard. As you type, it checks your password against five specific rules (length, uppercase, lowercase, numbers, and symbols). If you don't meet a rule, it keeps the red "X" visible and won't let you click "Create Account." This ensures every user has a "Very Strong" password that is hard for computers to guess.
+
+---
+
+## 6. Current Implementation Status
+*   **Login Logic:** ✅ **Complete.** All security measures listed above are active in `login.php`.
+*   **Registration Logic:** 🔴 **Missing.** The file `register.php` is empty. While the frontend (`register.js`) checks your password, the backend isn't yet ready to save that password to the database.
+*   **Session Management:** 🟡 **Basic.** Currently using `sessionStorage` in `dashboard.html`, which only remembers you as long as the tab is open.
+
+**Direct Conclusion:** The "How" is currently implemented through smart scrambling (Bcrypt) and strict input filtering (Prepared Statements). The next step is simply moving the pieces from the "Frontend" (JS) to the "Backend" (PHP) to complete the registration process.
